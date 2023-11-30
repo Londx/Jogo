@@ -1,0 +1,71 @@
+import random
+
+class Challenge:
+    def __init__(self, operation, numbers):
+        self.operation = operation
+        self.numbers = numbers
+
+    def generate(self):
+        return self.operation(self.numbers)
+
+class Game:
+    def __init__(self):
+        self.challenges = []
+        self.level = 1
+        self.points = 0
+
+    def add_challenge(self, challenge):
+        self.challenges.append(challenge)
+
+    def generate_challenge(self):
+        return self.challenges[self.level - 1].generate()
+
+    def get_level(self):
+        return self.level
+
+    def get_points(self):
+        return self.points
+
+    def play_challenge(self, answer):
+        if answer == self.generate_challenge():
+            self.points += 1
+            self.level += 1
+            return True
+        else:
+            return False
+
+class Presentation:
+    def show_challenge(self, challenge):
+        print(challenge)
+
+    def show_results(self, points):
+        print("Você fez {} pontos.".format(points))
+
+def main():
+    # Cria um jogo
+    game = Game()
+
+    # Adiciona desafios ao jogo
+    game.add_challenge(Challenge(operator.add, [1, 2]))
+    game.add_challenge(Challenge(operator.sub, [10, 5]))
+    game.add_challenge(Challenge(operator.mul, [2, 3]))
+    game.add_challenge(Challenge(operator.div, [10, 2]))
+
+    # Inicia o jogo
+    while True:
+        # Gera um desafio
+        challenge = game.generate_challenge()
+
+        # Pede ao jogador para responder
+        answer = input("Digite sua resposta: ")
+
+        # Verifica a resposta
+        if game.play_challenge(answer):
+            # Exibe os resultados
+            presentation.show_results(game.get_points())
+        else:
+            # Exibe o desafio novamente
+            presentation.show_challenge(challenge)
+
+if __name__ == "__main__":
+    main()
